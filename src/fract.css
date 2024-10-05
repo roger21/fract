@@ -7,7 +7,7 @@ html, body, canvas, form, div, input, label, span{
 body.fract{
   color:#303030;
   background-color:#ffffff;
-  width:clac(100vw - 60px);
+  width:calc(100vw - 60px);
   height:calc(100vh - 60px);
   margin:30px;
   border:2px dashed;
