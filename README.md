@@ -6,3 +6,5 @@
 the genaration use the whole available space of the viewport, meaning if you have a 1440p or a 4K monitor it may takes a lot of time to finish, try first in a smaller browser window, also use the step mode to see how many iterations you can reach before giving up\
 \
 the computation can be stopped any time by closing the tab or the browser
+
+https://roger21.github.io/fract/
