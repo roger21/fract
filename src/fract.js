@@ -159,7 +159,8 @@ window.addEventListener("load", function() {
     kochStep: async function(size, x, y) {
       if(stopping) {
         fractals.animeOver = true;
-        steps.textContent = "stopped at step " + (steps.textContent || "0");
+        steps.textContent = "stopped at step " +
+          (steps.textContent || "0");
         console.log("fract.js stopping kochStep", fractals.animeStep);
       } else {
         console.log("fract.js kochStep", fractals.animeStep);
@@ -188,7 +189,8 @@ window.addEventListener("load", function() {
       let size = Math.round(Math.min(width,
         height / (((Math.sqrt(3) * 4) / 2) / 3)) * .9);
       let x = Math.round((width - size) / 2);
-      let y = Math.round(((height - (size * (((Math.sqrt(3) * 4) / 2) / 3))) / 2) +
+      let y = Math.round(((height - (size *
+          (((Math.sqrt(3) * 4) / 2) / 3))) / 2) +
         (size * ((Math.sqrt(3) / 2) / 3)));
       let maxStep = 0;
       let s = size;
@@ -218,9 +220,11 @@ window.addEventListener("load", function() {
       }
       tortue.draw(size);
       tortue.turn("right", angle1);
-      fractals.treeLine(size * factor1, angle1, angle2, factor1, factor2, step - 1);
+      fractals.treeLine(size * factor1,
+        angle1, angle2, factor1, factor2, step - 1);
       tortue.turn("left", angle1 + angle2);
-      fractals.treeLine(size * factor2, angle1, angle2, factor1, factor2, step - 1);
+      fractals.treeLine(size * factor2,
+        angle1, angle2, factor1, factor2, step - 1);
       tortue.turn("right", angle2);
       tortue.back(size);
     },
@@ -238,7 +242,8 @@ window.addEventListener("load", function() {
     treeStep: async function(size, angle1, angle2, factor1, factor2, x, y) {
       if(stopping) {
         fractals.animeOver = true;
-        steps.textContent = "stopped at step " + (steps.textContent || "0");
+        steps.textContent = "stopped at step " +
+          (steps.textContent || "0");
         console.log("fract.js stopping treeStep", fractals.animeStep);
       } else {
         console.log("fract.js treeStep", fractals.animeStep);
@@ -248,12 +253,14 @@ window.addEventListener("load", function() {
           fractals.shadow ? 5 : 0);
         tortue.move(x, y);
         tortue.turn("left", 90);
-        fractals.treeLine(size, angle1, angle2, factor1, factor2, fractals.animeStep);
+        fractals.treeLine(size, angle1, angle2,
+          factor1, factor2, fractals.animeStep);
         steps.textContent = fractals.animeStep;
       }
       if(!fractals.animeOver) {
         ++fractals.animeStep;
-        await fractals.treeStepDelay(size, angle1, angle2, factor1, factor2, x, y);
+        await fractals.treeStepDelay(size,
+          angle1, angle2, factor1, factor2, x, y);
       } else {
         enableInputs();
       }
@@ -261,7 +268,8 @@ window.addEventListener("load", function() {
 
     tree: async function() {
       console.log("fract.js tree");
-      // 5.65 4.49 2.00 are magic numbers for angles 25 and 15 and factors 0.85 and 0.75
+      // 5.65 4.49 2.00 are magic numbers for
+      // angles 25 and 15 and factors 0.85 and 0.75
       let size = Math.round(Math.min(width * .9 / 5.65, height * .9 / 4.49));
       let angle1 = 25;
       let angle2 = 15;
@@ -285,7 +293,8 @@ window.addEventListener("load", function() {
         fractals.animeOver = true;
       }
       steps.textContent = "";
-      await fractals.treeStepDelay(size, angle1, angle2, factor1, factor2, x, y);
+      await fractals.treeStepDelay(size,
+        angle1, angle2, factor1, factor2, x, y);
     },
 
     drgnLine: function(size, step, side) {
@@ -323,7 +332,8 @@ window.addEventListener("load", function() {
     drgnStep: async function(size, x, y) {
       if(stopping) {
         fractals.animeOver = true;
-        steps.textContent = "stopped at step " + (steps.textContent || "0");
+        steps.textContent = "stopped at step " +
+          (steps.textContent || "0");
         console.log("fract.js stopping drgnStep", fractals.animeStep);
       } else {
         console.log("fract.js drgnStep", fractals.animeStep);
