@@ -1,18 +1,41 @@
-window.addEventListener("load", function() {
+window.addEventListener("DOMContentLoaded", function() {
 
-  let body = document.body;
-  let canvas = document.getElementById("fract");
-  let fract = canvas.getContext("2d", {
+  const fr = {
+    "warning": "Attention : la génération de la fractale peut figer votre navigateur, particulièrement si la fenêtre de votre navigateur dépasse le Full HD (1920 x 1080) ou si votre processeur est lent. Dans ces cas préférez le mode « step » et / ou réduisez la fenêtre de votre navigateur.",
+    "always": "Je veux toujours figer mon navigateur.",
+    "cancel": "Ok, laisse tomber.",
+    "letsgo": "Je veux figer mon navigateur.",
+  };
+  const indexEn = navigator.languages.findIndex(lang =>
+    lang.toLowerCase().split("-")[0] === "en");
+  const indexFr = navigator.languages.findIndex(lang =>
+    lang.toLowerCase().split("-")[0] === "fr");
+  const lang = ((indexEn !== -1 && indexEn < indexFr) || indexFr === -1) ?
+        "en" : "fr";
+  if(lang === "fr" /*&& false*/){
+    document.querySelectorAll("[data-lang]").forEach((e) => {
+      e.firstChild.textContent = fr[e.getAttribute("data-lang")];
+    });
+  }
+
+  const body = document.body;
+  const canvas = document.getElementById("fract");
+  const fract = canvas.getContext("2d", {
     alpha: true,
     desynchronized: true,
   });
-  let steps = document.querySelector("body > span#steps");
-  let start = document.querySelector("body form span#start");
-  let stop = document.querySelector("body form span#stop");
-  let clear = document.querySelector("body form span#clear");
+  const steps = document.querySelector("body > span#steps");
+  const start = document.querySelector("body form span#start");
+  const stop = document.querySelector("body form span#stop");
+  const clear = document.querySelector("body form span#clear");
+  const dialog = document.querySelector("body dialog#warning");
+  const always = document.querySelector("body dialog#warning input#always");
+  const cancel = document.querySelector("body dialog#warning span#cancel");
+  const letsgo = document.querySelector("body dialog#warning span#letsgo");
   let stopping = false;
   let working = false;
   let reseting = false;
+  let alwaysFreeze = false;
   let width, height;
 
   stop.addEventListener("click", function() {
@@ -46,7 +69,10 @@ window.addEventListener("load", function() {
     working = false;
     reseting = false;
   }
-  window.addEventListener("resize", setCanvaSize, false);
+  window.addEventListener("resize", () => {
+    alwaysFreeze = false;
+    setCanvaSize();
+  }, false);
   clear.addEventListener("click", setCanvaSize, false);
 
   let tortue = {
@@ -127,6 +153,7 @@ window.addEventListener("load", function() {
     animeStep: null,
     animeOver: false,
     animeDelay: 500,
+    current: "",
 
     kochLine: function(size, step) {
       //console.log("fract.js kochLine", step, size);
@@ -419,6 +446,23 @@ window.addEventListener("load", function() {
     }
   }
 
+  function startDraw() {
+    console.log("fract.js startDraw");
+    disableInputs();
+    tortue.reset();
+    fractals[fractals.current]();
+  }
+
+  cancel.addEventListener("click", () => {
+    dialog.close();
+  }, false);
+
+  letsgo.addEventListener("click", () => {
+    alwaysFreeze = always.checked;
+    dialog.close();
+    startDraw();
+  }, false);
+
   function drawFractal() {
     console.log("fract.js drawFractal");
     fractals.step = document.getElementById("step").checked;
@@ -426,9 +470,13 @@ window.addEventListener("load", function() {
     let inputs = document.getElementsByName("fractal");
     for(let i = 0; i < inputs.length; ++i) {
       if(inputs.item(i).checked) {
-        disableInputs();
-        tortue.reset();
-        fractals[inputs.item(i).value]();
+        fractals.current = inputs.item(i).value;
+        if(!fractals.step && !alwaysFreeze) {
+          always.checked = false;
+          dialog.showModal();
+        } else {
+          startDraw();
+        }
         break;
       }
     }
