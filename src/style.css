@@ -30,6 +30,9 @@ body.fract form{
 body.fract form *:is(input, label, span){
   cursor:pointer;
 }
+body.fract div:has(> input:hover, > label:hover){
+  color:#ff0000;
+}
 body.fract label{
   padding:0 0 0 10px;
 }
@@ -52,7 +55,7 @@ body.fract:not(.work):not(.clean) form span#clear{
 body.fract:not(.work) form span#start.startable:hover,
 body.fract.work form span#stop.stoppable:hover,
 body.fract:not(.work):not(.clean) form span#clear:hover{
-  color:#909090;
+  color:#ff0000;
 }
 body.fract > span#steps{
   position:absolute;
@@ -89,5 +92,5 @@ body.fract > dialog#warning div.buttons > span{
   display:block;
 }
 body.fract > dialog#warning div.buttons > span:hover{
-  color:#909090;
+  color:#ff0000;
 }
